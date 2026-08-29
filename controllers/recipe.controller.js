@@ -3,7 +3,10 @@ const Recipe = require("../models/recipe.model");
 // Create Recipe
 const createRecipe = async (req, res, next) => {
     try {
-        const recipe = await Recipe.create(req.body);
+        const recipe = await Recipe.create({
+            ...req.body,
+            user_id: req.user.id,
+        });
 
         res.status(201).json({
             message: "Recipe created successfully",
