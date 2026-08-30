@@ -1,27 +1,20 @@
 {
-  "name": "recipe_sharing_web",
+  "name": "recipe-sharing-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Recipe Sharing Web App - NTI Graduation Project",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Farah405/Recipe_sharing_web.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Farah405/Recipe_sharing_web/issues"
-  },
-  "homepage": "https://github.com/Farah405/Recipe_sharing_web#readme",
   "dependencies": {
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "mongoose": "^9.9.4"
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }
