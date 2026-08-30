@@ -1,31 +1,31 @@
-require("dotenv").config();
 const express = require("express");
-const connectDB = require("./config/db");
-const AppMiddleware = require("./middlewares/Applevel.middleware");
-const errHandle = require("./middlewares/errhandle.middleware");
-const recipeRoutes = require("./routes/recipe.routes");
-
+const dotenv = require("dotenv");
+dotenv.config();
+const connectDb = require("./config/db");
+const ApplevelMiddleware = require("./middlewares/Applevel.middleware");
+const errhandlermiddleware = require("./middlewares/errhandle.middleware");
 const app = express();
-
-// Connect to the database
-connectDB();
-
-// Apply app-level middlewares (cors, json, urlencoded)
-AppMiddleware(app);
-
-// API routes
-app.use("/recipes", recipeRoutes);
-
-// Health check route
-app.get("/", (req, res) => {
-    res.json({ message: "Recipe Sharing API is running" });
-});
-
-// Error handler must be the last middleware
-app.use(errHandle);
+app.use(express.json());
+app.use(ApplevelMiddleware);
+app.get("/",(req,res)=>{
+    res.json({
+        message: "Recipe Sharing App API is running"
+    });
+} );
+app.use(errhandlermiddleware);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+const startServer = async () => {
+    try {
+        await connectDb();
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    } catch (error) {
+        console.error(`Server startup failed: ${error.message}`);
+        process.exitCode = 1;
+    }
+};
+
+startServer();
