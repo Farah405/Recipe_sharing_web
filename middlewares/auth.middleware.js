@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken")
-require("dotenv").config({ path: "../config.env" })
+
 
 exports.validateToken = (req, res, next)=>{
     const token = req.headers.authorization
@@ -7,7 +7,7 @@ exports.validateToken = (req, res, next)=>{
         return res.status(401).json({msg:"Token is not Found Try Again!!"})
     }
     try{ 
-        const payload= jwt.verify(token,process.env.secret_key)
+        const payload= jwt.verify(token,process.env.SECRET_KEY)
         req.user = payload
         next()
     }

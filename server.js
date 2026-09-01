@@ -1,31 +1,38 @@
 const express = require("express");
-const dotenv = require("dotenv");
-dotenv.config();
-const connectDb = require("./config/db");
+
+require("dotenv").config( {path: "./config.env" });
+const connectDB = require("./config/db");
+
 const ApplevelMiddleware = require("./middlewares/Applevel.middleware");
-const errhandlermiddleware = require("./middlewares/errhandle.middleware");
+const errorHandler = require("./middlewares/errhandle.middleware");
+
+const userRoutes = require("./routes/user.route");
+const recipeRoutes = require("./routes/recipe.route");
+
+
+
 const app = express();
+
+
+
+connectDB();
+
 app.use(express.json());
+
 app.use(ApplevelMiddleware);
-app.get("/",(req,res)=>{
-    res.json({
-        message: "Recipe Sharing App API is running"
-    });
-} );
-app.use(errhandlermiddleware);
+
+
+app.use("/auth", userRoutes);
+
+app.use("/recipes", recipeRoutes);
+
+
+
+app.use(errorHandler);
+
 
 const PORT = process.env.PORT || 3000;
 
-const startServer = async () => {
-    try {
-        await connectDb();
-        app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`);
-        });
-    } catch (error) {
-        console.error(`Server startup failed: ${error.message}`);
-        process.exitCode = 1;
-    }
-};
-
-startServer();
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});

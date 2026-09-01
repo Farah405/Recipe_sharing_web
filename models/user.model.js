@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const bcrypt = require("bcrypt")
 
 const userSchema = new mongoose.Schema({
     name:{type:String, required:[true, "Name Is Required"], 
@@ -26,6 +27,8 @@ userSchema.pre('save',async function(){
         if(this.password !== this.confirmPassword){
             throw  new Error("Your Password & Your Confirm Password are not match")
         }
+    this.password = await bcrypt.hash(this.password,10)
+    this.confirmPassword=undefined
     }
     catch(err){
         next(err)
