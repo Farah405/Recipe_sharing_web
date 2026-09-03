@@ -1,0 +1,142 @@
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+
+  <div
+    class="card shadow-lg border-0 rounded-4 p-4"
+    style="max-width: 450px; width: 100%;">
+
+    <div class="text-center mb-4">
+
+      <!-- Red Logo -->
+      <div
+        class="bg-danger text-white rounded-4 d-flex justify-content-center align-items-center mx-auto mb-3 shadow-sm"
+        style="width: 70px; height: 70px;">
+
+        <h2 class="m-0 fw-bold">R</h2>
+
+      </div>
+
+      <h2 class="fw-bold">Recipe App</h2>
+      <p class="text-muted">Welcome Back</p>
+
+    </div>
+    <div
+  *ngIf="showAlert"
+  class="alert alert-dismissible fade show text-center fw-semibold"
+  [ngClass]="{
+    'alert-success': alertType === 'success',
+    'alert-danger': alertType === 'danger'
+  }"
+  role="alert">
+
+  {{ alertMessage }}
+
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="showAlert = false">
+  </button>
+
+</div>
+
+    <form [formGroup]="loginform" (ngSubmit)="login()">
+
+      <!-- Email -->
+      <div class="mb-3">
+
+        <label class="form-label fw-semibold">
+          Email
+        </label>
+
+        <input
+          type="email"
+          class="form-control form-control-lg"
+          formControlName="email"
+          placeholder="example@gmail.com"
+          [ngClass]="{
+            'is-invalid':
+              loginform.get('email')?.touched &&
+              loginform.get('email')?.invalid
+          }">
+
+        <div
+          *ngIf="
+            loginform.get('email')?.touched &&
+            loginform.get('email')?.invalid
+          "
+          class="invalid-feedback">
+
+          <span *ngIf="loginform.get('email')?.errors?.['required']">
+            Email is required
+          </span>
+
+          <span *ngIf="loginform.get('email')?.errors?.['email']">
+            Please enter a valid email
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- Password -->
+      <div class="mb-4">
+
+        <label class="form-label fw-semibold">
+          Password
+        </label>
+
+        <input
+          type="password"
+          class="form-control form-control-lg"
+          formControlName="password"
+          placeholder="********"
+          [ngClass]="{
+            'is-invalid':
+              loginform.get('password')?.touched &&
+              loginform.get('password')?.invalid
+          }">
+
+        <div
+          *ngIf="
+            loginform.get('password')?.touched &&
+            loginform.get('password')?.invalid
+          "
+          class="invalid-feedback">
+
+          Password is required
+
+        </div>
+
+      </div>
+
+      <!-- Red Login Button -->
+      <button
+        type="submit"
+        class="btn btn-danger btn-lg w-100 rounded-3">
+        Login
+
+      </button>
+
+    </form>
+
+    <div class="text-center mt-4">
+
+      <p class="text-muted mb-0">
+
+        Don't have an account?
+
+        <a
+          routerLink="/registration"
+          class="text-danger fw-bold text-decoration-none">
+
+          Register
+
+        </a>
+
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
