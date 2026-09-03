@@ -1,0 +1,109 @@
+<div class="container">
+
+  <header class="header">
+    <h1>Recipe Sharing</h1>
+    <p>Manage your recipes</p>
+  </header>
+
+  <section class="form-section">
+
+    <h2>{{ isEditing ? 'Edit Recipe' : 'Add New Recipe' }}</h2>
+
+    <input
+      type="text"
+      placeholder="Title"
+      [(ngModel)]="recipeForm.title"
+    />
+
+    <textarea
+      placeholder="Description"
+      [(ngModel)]="recipeForm.description"
+    ></textarea>
+
+    <input
+      type="text"
+      placeholder="Ingredients (separate with commas)"
+      [value]="recipeForm.ingredients.join(', ')"
+      (input)="updateIngredients($any($event.target).value)"
+    />
+
+    <textarea
+      placeholder="Instructions"
+      [(ngModel)]="recipeForm.instructions"
+    ></textarea>
+
+    <input
+      type="text"
+      placeholder="Category"
+      [(ngModel)]="recipeForm.category"
+    />
+
+    <div class="form-buttons">
+
+      @if (!isEditing) {
+        <button (click)="addRecipe()">Add Recipe</button>
+      }
+
+      @if (isEditing) {
+        <button (click)="updateRecipe()">Update Recipe</button>
+        <button class="cancel" (click)="resetForm()">Cancel</button>
+      }
+
+    </div>
+
+  </section>
+
+  <main>
+
+    <div class="recipes-grid">
+
+      @for (recipe of recipes; track recipe._id) {
+
+        <article class="recipe-card">
+
+          <span class="category">
+            {{ recipe.category }}
+          </span>
+
+          <h2>{{ recipe.title }}</h2>
+
+          <p>{{ recipe.description }}</p>
+
+          <h3>Ingredients</h3>
+
+          <ul>
+            @for (ingredient of recipe.ingredients; track ingredient) {
+              <li>{{ ingredient }}</li>
+            }
+          </ul>
+
+          <h3>Instructions</h3>
+
+          <p>{{ recipe.instructions }}</p>
+
+          <div class="actions">
+
+            <button (click)="editRecipe(recipe)">
+              Edit
+            </button>
+
+            <button
+              class="delete"
+              (click)="deleteRecipe(recipe._id!)"
+            >
+              Delete
+            </button>
+
+          </div>
+
+        </article>
+
+      }
+
+    </div>
+
+  </main>
+
+</div>
+
+<router-outlet></router-outlet>
